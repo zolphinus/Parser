@@ -1,0 +1,32 @@
+# depslib dependency file v1.0
+1460513217 source:c:\users\zolphinus\documents\github\parser\main.cpp
+	"Compiler.h"
+
+1460511950 c:\users\zolphinus\documents\github\parser\tokenizer.h
+	<list>
+	"Token.h"
+	<string>
+
+1460514504 c:\users\zolphinus\documents\github\parser\token.h
+	<string>
+
+1460514517 source:c:\users\zolphinus\documents\github\parser\token.cpp
+	"Token.h"
+
+1460513125 source:c:\users\zolphinus\documents\github\parser\tokenizer.cpp
+	"Tokenizer.h"
+	<iostream>
+	<fstream>
+	<cstdlib>
+
+1460513899 source:c:\users\zolphinus\documents\github\parser\compiler.cpp
+	"Compiler.h"
+	<iostream>
+
+1460512548 c:\users\zolphinus\documents\github\parser\compiler.h
+	<fstream>
+	<string>
+	"Tokenizer.h"
+	"Token.h"
+	<List>
+
