@@ -25,6 +25,7 @@ private:
 
     void checkStatementList();
     bool checkStatement();
+    bool checkExpression();
 
     Token* currentToken;
     Token* tokenNext;

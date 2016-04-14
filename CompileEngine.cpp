@@ -62,11 +62,58 @@ void CompileEngine::advanceToken(){
     }
 }
 
-void CompileEngine::checkStatementList(){
+bool CompileEngine::checkExpression(){
 
+    return false;
 }
 
 bool CompileEngine::checkStatement(){
+    //check for a keyword
+    if(currentToken->tokenType == KEYWORD){
+        if(currentToken->keyword == "READ"){
+            advanceToken();
+
+        }else if (currentToken->keyword == "WRITE"){
+            advanceToken();
+
+        }else{
+            //we have a keyword that isn't expected
+            currentToken->errorCode = 5;
+            throw(currentToken);
+        }
+    }else if (currentToken->tokenType == IDENTIFIER){
+        advanceToken();
+
+        if(currentToken->tokenType == SYMBOL){
+            if(currentToken->symbol == ":="){
+                advanceToken();
+
+                bool valid_expression = checkExpression();
+                if(valid_expression){
+                    if(currentToken->tokenType == SYMBOL){
+                        if(currentToken->symbol == ";"){
+                            advanceToken();
+                        }else{
+                            currentToken->errorCode = 8;
+                            throw(currentToken);
+                        }
+                    }else{
+                        currentToken->errorCode = 8;
+                        throw(currentToken);
+                    }
+                }else{
+                    currentToken->errorCode = 7;
+                    throw(currentToken);
+                }
+            }else{
+                currentToken->errorCode = 6;
+                throw(currentToken);
+            }
+        }else{
+            currentToken->errorCode = 6;
+            throw(currentToken);
+        }
+    }
 
     return false;
 }
