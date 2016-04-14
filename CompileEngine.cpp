@@ -75,6 +75,51 @@ bool CompileEngine::checkStatement(){
 
         }else if (currentToken->keyword == "WRITE"){
             advanceToken();
+            if(currentToken->tokenType == SYMBOL){
+                if(currentToken->symbol == "("){
+                    advanceToken();
+                    bool valid_expression = checkExpression();
+                    if(valid_expression){
+                        while(valid_expression){
+                            valid_expression = checkExpression();
+                        }
+
+                        if(currentToken->tokenType == SYMBOL){
+                            if(currentToken->symbol == ")"){
+                                advanceToken();
+                                if(currentToken->tokenType == SYMBOL){
+                                    if(currentToken->symbol == ";"){
+                                        advanceToken();
+                                    }else{
+                                        currentToken->errorCode = 8;
+                                        throw(currentToken);
+                                    }
+                                }else{
+                                    currentToken->errorCode = 8;
+                                    throw(currentToken);
+                                }
+                            }else{
+                                currentToken->errorCode = 10;
+                                throw(currentToken);
+                            }
+                        }else{
+                            currentToken->errorCode = 10;
+                            throw(currentToken);
+                        }
+
+                    }else{
+                        currentToken->errorCode = 7;
+                        throw(currentToken);
+                    }
+
+                }else{
+                    currentToken->errorCode = 9;
+                    throw(currentToken);
+                }
+            }else{
+                currentToken->errorCode = 9;
+                throw(currentToken);
+            }
 
         }else{
             //we have a keyword that isn't expected
