@@ -11,6 +11,7 @@ enum TokenType{
     ERROR
 };
 
+
 class Token{
 public:
     Token();
@@ -23,6 +24,7 @@ public:
 
     int lineCount;
     int columnCount;
+    int errorCode;
 };
 
 #endif // TOKEN

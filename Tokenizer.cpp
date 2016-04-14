@@ -105,6 +105,9 @@ void Tokenizer::getTokens(std::string tokenFile, std::list<Token*>*& tokenList){
                 }
             }
 
+            if(newToken->tokenType != ERROR){
+                newToken->errorCode = 0;
+            }
             newToken->tokenType = tokenType;
             newToken->lineCount = lineCount;
             newToken->columnCount = columnCount;

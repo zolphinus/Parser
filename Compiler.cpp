@@ -19,9 +19,9 @@ void Compiler::compileFile(std::string inputFile){
     //makes a list that contains the tokens
     tokenizer.getTokens(tokenFile, tokenList);
 
-    int errorCode = 0;
 
     //parse file, return error object
+    compileEngine.recieveTokens(tokenList);
 
     //if error object has error, report it and the line
 

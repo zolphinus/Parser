@@ -9,5 +9,6 @@ Token::Token(){
     intVal = 0;
 
     lineCount = 0;
+    errorCode = 1;
 }
 
