@@ -19,6 +19,7 @@ void Compiler::compileFile(std::string inputFile){
     //makes a list that contains the tokens
     tokenizer.getTokens(tokenFile, tokenList);
 
+    tokenizer.printTokens(tokenList);
 
     //parse file, return error object
     compileEngine.recieveTokens(tokenList);

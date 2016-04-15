@@ -26,6 +26,10 @@ private:
     void checkStatementList();
     bool checkStatement();
     bool checkExpression();
+    bool checkIdentifier();
+    bool checkOperation();
+    bool checkFactor();
+    bool checkComma();
 
     Token* currentToken;
     Token* tokenNext;

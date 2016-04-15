@@ -18,6 +18,7 @@ public:
     TokenType lookUpInt(char firstChar);
     TokenType lookUpSymbol(std::string curToken);
 
+    void printTokens(std::list<Token*>*& tokenList);
 
 
 private:

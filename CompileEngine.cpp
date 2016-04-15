@@ -59,10 +59,107 @@ void CompileEngine::advanceToken(){
     if(curToken != tokenList->end()){
         this->curToken++;
         currentToken = *curToken;
+    }else{
+        //tried to advance token but no more tokens remain
+        currentToken = *tokenList->end();
+        currentToken->errorCode = 12;
+        throw(currentToken);
     }
 }
 
+bool CompileEngine::checkIdentifier(){
+    if(currentToken->tokenType == IDENTIFIER){
+        advanceToken();
+        return true;
+    }
+    return false;
+}
+
+bool CompileEngine::checkComma(){
+    if(currentToken->tokenType == SYMBOL){
+        if(currentToken->symbol == ","){
+            advanceToken();
+            return true;
+        }
+    }
+
+    return false;
+}
+
 bool CompileEngine::checkExpression(){
+    bool valid_factor = checkFactor();
+    if(valid_factor){
+        bool valid_operation = checkOperation();
+        if(valid_operation){
+            while(valid_operation){
+                valid_factor = checkFactor();
+                if(valid_factor){
+                    valid_operation = checkOperation();
+                }else{
+                    //if we have an operation we MUST have a factor
+                    currentToken->errorCode = 14;
+                    throw(currentToken);
+                }
+            }
+            return true;
+
+        }else{
+            //we need a minimum of one factor, but do not care if we lack an operation
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool CompileEngine::checkFactor(){
+    if(currentToken->tokenType == INT_CONST){
+        advanceToken();
+        return true;
+    }
+
+    if(currentToken->tokenType == IDENTIFIER){
+        advanceToken();
+        return true;
+    }
+
+    if(currentToken->tokenType == SYMBOL){
+        if(currentToken->symbol == "("){
+            advanceToken();
+
+            bool valid_expression = checkExpression();
+
+            if(valid_expression){
+                if(currentToken->tokenType == SYMBOL){
+                    if(currentToken->symbol == ")"){
+                        advanceToken();
+                        return true;
+                    }else{
+                        return false;
+                    }
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
+    return false;
+}
+
+bool CompileEngine::checkOperation(){
+    if(currentToken->tokenType == SYMBOL){
+        if(currentToken->symbol == "+" || currentToken->symbol == "-"){
+            advanceToken();
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     return false;
 }
@@ -72,6 +169,59 @@ bool CompileEngine::checkStatement(){
     if(currentToken->tokenType == KEYWORD){
         if(currentToken->keyword == "READ"){
             advanceToken();
+            if(currentToken->tokenType == SYMBOL){
+                if(currentToken->symbol == "("){
+                    advanceToken();
+                    bool valid_identifier = checkIdentifier();
+                    if(valid_identifier){
+                        bool valid_comma = checkComma();
+                        while(valid_comma){
+                            valid_identifier = checkIdentifier();
+                            if(valid_identifier){
+                                valid_comma = checkComma();
+
+                            }else{
+                                //must have valid identifier after a comma
+                                currentToken->errorCode = 11;
+                                throw(currentToken);
+                            }
+                        }
+                        if(currentToken->tokenType == SYMBOL){
+                            if(currentToken->symbol == ")"){
+                                advanceToken();
+                                if(currentToken->tokenType == SYMBOL){
+                                    if(currentToken->symbol == ";"){
+                                        advanceToken();
+                                        return true;
+                                    }else{
+                                        currentToken->errorCode = 8;
+                                        throw(currentToken);
+                                    }
+                                }else{
+                                    currentToken->errorCode = 8;
+                                    throw(currentToken);
+                                }
+                            }else{
+                                currentToken->errorCode = 10;
+                                throw(currentToken);
+                            }
+                        }else{
+                            currentToken->errorCode = 10;
+                            throw(currentToken);
+                        }
+
+                    }else{
+                        currentToken->errorCode = 11;
+                        throw(currentToken);
+                    }
+                }else{
+                    currentToken->errorCode = 9;
+                    throw(currentToken);
+                }
+            }else{
+                currentToken->errorCode = 9;
+                throw(currentToken);
+            }
 
         }else if (currentToken->keyword == "WRITE"){
             advanceToken();
@@ -80,8 +230,16 @@ bool CompileEngine::checkStatement(){
                     advanceToken();
                     bool valid_expression = checkExpression();
                     if(valid_expression){
-                        while(valid_expression){
+                        bool valid_comma = checkComma();
+                        while(valid_comma){
                             valid_expression = checkExpression();
+                            if(valid_expression){
+                                valid_comma = checkComma();
+                            }else{
+                                //must have a valid expression after a comma
+                                currentToken->errorCode = 7;
+                                throw(currentToken);
+                            }
                         }
 
                         if(currentToken->tokenType == SYMBOL){
@@ -90,6 +248,7 @@ bool CompileEngine::checkStatement(){
                                 if(currentToken->tokenType == SYMBOL){
                                     if(currentToken->symbol == ";"){
                                         advanceToken();
+                                        return true;
                                     }else{
                                         currentToken->errorCode = 8;
                                         throw(currentToken);
@@ -123,8 +282,13 @@ bool CompileEngine::checkStatement(){
 
         }else{
             //we have a keyword that isn't expected
-            currentToken->errorCode = 5;
-            throw(currentToken);
+            if(currentToken->keyword == "BEGIN"){
+                currentToken->errorCode = 5;
+                throw(currentToken);
+            }else{
+                //must be the end statement
+                return false;
+            }
         }
     }else if (currentToken->tokenType == IDENTIFIER){
         advanceToken();
@@ -138,6 +302,7 @@ bool CompileEngine::checkStatement(){
                     if(currentToken->tokenType == SYMBOL){
                         if(currentToken->symbol == ";"){
                             advanceToken();
+                            return true;
                         }else{
                             currentToken->errorCode = 8;
                             throw(currentToken);
@@ -218,6 +383,10 @@ void CompileEngine::recursiveParse(){
         errorCode = e->errorCode;
         errorLine = e->lineCount;
         errorCol = e->columnCount;
+        std::cout << "ERROR CODE: " << errorCode << std::endl;
+        std::cout << "LINE: " << errorLine << std::endl;
+        std::cout << "COL:  " << errorCol << std::endl;
+        std::cout << "word: " << e->keyword << std::endl;
 
     }
 }

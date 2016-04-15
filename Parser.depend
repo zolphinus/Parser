@@ -2,7 +2,7 @@
 1460513217 source:c:\users\zolphinus\documents\github\parser\main.cpp
 	"Compiler.h"
 
-1460511950 c:\users\zolphinus\documents\github\parser\tokenizer.h
+1460760855 c:\users\zolphinus\documents\github\parser\tokenizer.h
 	<list>
 	"Token.h"
 	<string>
@@ -10,16 +10,16 @@
 1460596433 c:\users\zolphinus\documents\github\parser\token.h
 	<string>
 
-1460514517 source:c:\users\zolphinus\documents\github\parser\token.cpp
+1460596387 source:c:\users\zolphinus\documents\github\parser\token.cpp
 	"Token.h"
 
-1460514914 source:c:\users\zolphinus\documents\github\parser\tokenizer.cpp
+1460761449 source:c:\users\zolphinus\documents\github\parser\tokenizer.cpp
 	"Tokenizer.h"
 	<iostream>
 	<fstream>
 	<cstdlib>
 
-1460595394 source:c:\users\zolphinus\documents\github\parser\compiler.cpp
+1460760963 source:c:\users\zolphinus\documents\github\parser\compiler.cpp
 	"Compiler.h"
 	<iostream>
 
@@ -31,12 +31,12 @@
 	"Token.h"
 	<List>
 
-1460595265 source:c:\users\zolphinus\documents\github\parser\compileengine.cpp
+1460761477 source:c:\users\zolphinus\documents\github\parser\compileengine.cpp
 	"CompileEngine.h"
 	<iterator>
 	<iostream>
 
-1460597799 c:\users\zolphinus\documents\github\parser\compileengine.h
+1460760261 c:\users\zolphinus\documents\github\parser\compileengine.h
 	<list>
 	"Token.h"
 

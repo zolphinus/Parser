@@ -94,11 +94,14 @@ void Tokenizer::getTokens(std::string tokenFile, std::list<Token*>*& tokenList){
                         newToken->symbol = symbol_string;
                     }else{
                         //otherwise we need to check if we have an assignment operator
+
                         if (firstChar == ':'){
                             fin.get(firstChar);
                             columnCount++;
                             symbol_string.push_back(firstChar);
+
                             tokenType = lookUpSymbol(symbol_string);
+                            newToken->symbol = symbol_string;
                         }
                     }
 
@@ -114,7 +117,6 @@ void Tokenizer::getTokens(std::string tokenFile, std::list<Token*>*& tokenList){
             //add to the list
             tokenList->push_back(newToken);
 
-            std::cout << "LINE: " << newToken->lineCount << "COL: " << columnCount << std::endl;
             if(newToken->tokenType == ERROR){
                 //ends when we find the first error
                 break;
@@ -158,6 +160,33 @@ void Tokenizer::getTokens(std::string tokenFile, std::list<Token*>*& tokenList){
 
     //add the created token to the tokenList
 
+
+}
+
+void Tokenizer::printTokens(std::list<Token*>*& tokenList){
+    std::list<Token*>::iterator curToken;
+    curToken = tokenList->begin();
+    Token* temp = NULL;
+
+    for(curToken; curToken != tokenList->end(); curToken++){
+        temp = *curToken;
+
+        if(temp->tokenType == KEYWORD){
+            std::cout << temp->keyword << std::endl;
+        }
+
+        if(temp->tokenType == INT_CONST){
+            std::cout << temp->intVal << std::endl;
+        }
+
+        if(temp->tokenType == IDENTIFIER){
+            std::cout << temp->identifier << std::endl;
+        }
+
+        if(temp->tokenType == SYMBOL){
+            std::cout << temp->symbol << std::endl;
+        }
+    }
 
 }
 
