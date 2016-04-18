@@ -4,6 +4,8 @@
 
 CompileEngine::CompileEngine(){
     errorCode = 0;
+    errorLine = 0;
+    errorCol = 0;
 }
 
 
@@ -379,14 +381,9 @@ void CompileEngine::recursiveParse(){
     catch (const Token* e){
         // catch will allow us to break out of the recursion stack and destroy all memory frames related to it
         //this lets us handle error codes without extra code bloat to verify if an error has been thrown
-        std::cout << "TOKEN WAS CAUGHT" << std::endl;
         errorCode = e->errorCode;
         errorLine = e->lineCount;
         errorCol = e->columnCount;
-        std::cout << "ERROR CODE: " << errorCode << std::endl;
-        std::cout << "LINE: " << errorLine << std::endl;
-        std::cout << "COL:  " << errorCol << std::endl;
-        std::cout << "word: " << e->keyword << std::endl;
 
     }
 }

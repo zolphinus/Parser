@@ -32,6 +32,14 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="CompileEngine.cpp" />
+		<Unit filename="CompileEngine.h" />
+		<Unit filename="Compiler.cpp" />
+		<Unit filename="Compiler.h" />
+		<Unit filename="Token.cpp" />
+		<Unit filename="Token.h" />
+		<Unit filename="Tokenizer.cpp" />
+		<Unit filename="Tokenizer.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

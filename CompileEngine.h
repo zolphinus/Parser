@@ -10,14 +10,15 @@ public:
     void recieveTokens(std::list<Token*>*& newTokenList);
     void recursiveParse();
 
+    int errorCode;
+    int errorLine;
+    int errorCol;
+
 private:
     std::list<Token*>* tokenList;
     std::list<Token*>::iterator curToken;
     std::list<Token*>::iterator nextToken;
 
-    int errorCode;
-    int errorLine;
-    int errorCol;
 
     void advanceToken();
     void getNextToken();

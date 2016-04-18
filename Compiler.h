@@ -12,6 +12,7 @@ public:
 
 private:
     std::string stripFile(std::string); //pre pass to remove comments and whitespace
+    void printError(int errorCode, int lineNumber, int columnNumber, std::string fileName);
 
     Tokenizer tokenizer; //makes tokens then adds to list for parser to parse
     CompileEngine compileEngine;
