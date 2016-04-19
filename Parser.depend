@@ -1,6 +1,8 @@
 # depslib dependency file v1.0
-1460513217 source:c:\users\zolphinus\documents\github\parser\main.cpp
+1460771901 source:c:\users\zolphinus\documents\github\parser\main.cpp
 	"Compiler.h"
+	<string>
+	<iostream>
 
 1460760855 c:\users\zolphinus\documents\github\parser\tokenizer.h
 	<list>

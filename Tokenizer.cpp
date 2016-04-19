@@ -34,6 +34,7 @@ void Tokenizer::getTokens(std::string tokenFile, std::list<Token*>*& tokenList){
 
             currentToken = ""; //resets the token building string
 
+            firstChar = toupper(firstChar);
 
             validIDcharacter = validIDchar(firstChar, FIRST);
             if(validIDcharacter){
@@ -51,6 +52,7 @@ void Tokenizer::getTokens(std::string tokenFile, std::list<Token*>*& tokenList){
                     validIDcharacter = validIDchar(firstChar, NOT_FIRST);
                     if(validIDcharacter){
                         fin.get(firstChar);
+                        firstChar = toupper(firstChar);
                         columnCount++;
                         currentToken += firstChar;
                     }
